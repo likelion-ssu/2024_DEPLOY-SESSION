@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>숭멋사 | 사진첩</title>
+  <style>
+    body {
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 30px;
+    }
+    img {
+      height:fit-content
+    }
+    img:nth-of-type(1) {
+      width: 700px;
+    }
+    img:nth-of-type(2) {
+      width: 400px;
+
+    }
+  </style>
+</head>
+<body>
+  <img th:src="@{/img/likelion12th.png}" alt="숭멋사 12기" />
+  <img th:src="@{/img/likelion12th-BE.png}" alt="숭멋사 12기 BE" />
+</body>
+</html>
