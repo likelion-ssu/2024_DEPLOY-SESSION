@@ -15,9 +15,4 @@ public class HomeController {
         model.addAttribute("name", name.orElse("아기사자"));
         return "index";
     }
-
-    @GetMapping(value = "/photos")
-    public String photoPage() {
-        return "photo";
-    }
 }

@@ -19,6 +19,31 @@
         font-weight: 800;
         font-size: 18px;
       }
+      h2 {
+        margin: 30px 0 15px 0;
+        font-size: 14px;
+      }
+      #container {
+        max-width: 60%;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .item {
+        border: 1px solid #d9d9d9;
+        padding: 10px;
+        text-align: center;
+        cursor: pointer;
+        background-color: white;
+      }
+      .item:hover {
+        background-color: #d0d0d0;
+        color: white;
+      }
+      .item:active {
+        background-color: #cacaca;
+        color: white;
+      }
     </style>
   </head>
   <body>
@@ -26,5 +51,72 @@
     <p>안녕하세요,
       <span th:text="${name}">아기사자</span>님!
     </p>
+    <h2>멋쟁이 어른사자들</h2>
+    <div id="container">
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      window.onload = () => {
+        addMemberListTable();
+      }
+
+      function addMemberListTable() {
+        const request ={
+          type: "get",
+          url: "members",
+          dataType: "json",
+          success: (response) => {
+            const container = document.querySelector('#container');
+
+            response.forEach(member => {
+              const item = document.createElement('div');
+              item.setAttribute('class', 'item');
+              item.textContent = member.name;
+              item.onclick = () => {
+                printMemberDetail(member.name);
+              }
+              container.appendChild(item);
+            });
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        }
+        $.ajax(request);
+      }
+
+      function printMemberDetail(name) {
+        const request ={
+          type: "get",
+          url: "members/"+name,
+          dataType: "json",
+          success: (response) => {
+            const h1 = document.querySelector("h1");
+            const p = document.querySelector("p");
+
+            const {name, position} = response;
+
+            h1.textContent = getRandomEmoji();
+            p.textContent = position + '\n' + name;
+          },
+          error: () => {
+            const h1 = document.querySelector("h1");
+            const p = document.querySelector("p");
+
+            h1.textContent = "❌";
+            p.textContent = name + '을 찾을 수 없습니다.';
+          }
+        }
+        $.ajax(request);
+      }
+
+      function getRandomEmoji() {
+        const emojiRangeStart = 0x1F600;
+        const emojiRangeEnd = 0x1F644;
+        const randomCodePoint = Math.floor(Math.random() * (emojiRangeEnd - emojiRangeStart + 1)) + emojiRangeStart;
+        return String.fromCodePoint(randomCodePoint);
+      }
+
+    </script>
   </body>
 </html>
